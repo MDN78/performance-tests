@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  script:
+    build:
+      context: .
+      dockerfile: Dockerfile.compose-example
+    ports:
+      - "6379:6379"
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:alpine
