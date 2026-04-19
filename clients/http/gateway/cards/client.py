@@ -12,7 +12,6 @@ class IssueCardRequestDict(TypedDict):
     userId: str
     accountId: str
 
-
 class CardsGatewayHTTPClient(HTTPClient):
     """
     Клиент для взаимодействия с /api/v1/cards сервиса http-gateway.
