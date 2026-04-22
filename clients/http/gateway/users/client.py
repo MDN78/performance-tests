@@ -71,7 +71,6 @@ class UsersGatewayHTTPClient(HTTPClient):
         response = self.get_user_api(user_id)
         return response.json()
 
-    # Добавили новый метод
     def create_user(self) -> CreateUserResponseDict:
         request = CreateUserRequestDict(
             email=f"user.{time.time()}@example.com",
