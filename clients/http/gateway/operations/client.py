@@ -1,12 +1,14 @@
 from typing import TypedDict
+
 from httpx import Response, QueryParams
+
 from clients.http.client import HTTPClient
 from clients.http.gateway.client import build_gateway_http_client
 
 
 class OperationDict(TypedDict):
     """
-    Описание структуры операции
+    Описание структуры операции.
     """
     id: str
     type: str
@@ -20,7 +22,7 @@ class OperationDict(TypedDict):
 
 class OperationReceiptDict(TypedDict):
     """
-    Описание структуры чека операции
+    Описание структуры чека по операции.
     """
     url: str
     document: str
@@ -28,11 +30,18 @@ class OperationReceiptDict(TypedDict):
 
 class OperationsSummaryDict(TypedDict):
     """
-    Описание структуры саммари по операциям
+    Описание структуры статистики по операциям.
     """
     spentAmount: float
     receivedAmount: float
     cashbackAmount: float
+
+
+class GetOperationResponseDict(TypedDict):
+    """
+    Описание структуры ответа получения операции.
+    """
+    operation: OperationDict
 
 
 class GetOperationsQueryDict(TypedDict):
@@ -58,9 +67,16 @@ class GetOperationsSummaryQueryDict(TypedDict):
 
 class GetOperationsSummaryResponseDict(TypedDict):
     """
-    Описание структуры ответа получения отчета всех операций
+    Описание структуры ответа получения статистики по операциям.
     """
     summary: OperationsSummaryDict
+
+
+class GetOperationReceiptResponseDict(TypedDict):
+    """
+    Описание структуры ответа получения чека по операции.
+    """
+    receipt: OperationReceiptDict
 
 
 class MakeOperationRequestDict(TypedDict):
@@ -82,7 +98,7 @@ class MakeFeeOperationRequestDict(MakeOperationRequestDict):
 
 class MakeFeeOperationResponseDict(TypedDict):
     """
-    Структура ответа для операции создания комиссии
+    Описание структуры ответа на создание операции комиссии.
     """
     operation: OperationDict
 
@@ -96,7 +112,7 @@ class MakeTopUpOperationRequestDict(MakeOperationRequestDict):
 
 class MakeTopUpOperationResponseDict(TypedDict):
     """
-    Структура ответа для операции создания комиссии
+    Описание структуры ответа на создание операции пополнения.
     """
     operation: OperationDict
 
@@ -110,7 +126,7 @@ class MakeCashbackOperationRequestDict(MakeOperationRequestDict):
 
 class MakeCashbackOperationResponseDict(TypedDict):
     """
-    Структура ответа для операции создания кэшбека
+    Описание структуры ответа на создание операции кэшбэка.
     """
     operation: OperationDict
 
@@ -124,7 +140,7 @@ class MakeTransferOperationRequestDict(MakeOperationRequestDict):
 
 class MakeTransferOperationResponseDict(TypedDict):
     """
-    Структура ответа для операции создания перевода
+    Описание структуры ответа на создание операции перевода.
     """
     operation: OperationDict
 
@@ -141,7 +157,7 @@ class MakePurchaseOperationRequestDict(MakeOperationRequestDict):
 
 class MakePurchaseOperationResponseDict(TypedDict):
     """
-    Структура ответа для операции создания покупки
+    Описание структуры ответа на создание операции покупки.
     """
     operation: OperationDict
 
@@ -153,9 +169,9 @@ class MakeBillPaymentOperationRequestDict(MakeOperationRequestDict):
     pass
 
 
-class MakeBillOperationResponseDict(TypedDict):
+class MakeBillPaymentOperationResponseDict(TypedDict):
     """
-    Структура ответа для операции оплаты по счету
+    Описание структуры ответа на создание операции оплаты по счёту.
     """
     operation: OperationDict
 
@@ -169,7 +185,7 @@ class MakeCashWithdrawalOperationRequestDict(MakeOperationRequestDict):
 
 class MakeCashWithdrawalOperationResponseDict(TypedDict):
     """
-    Структура ответа для операции снятия наличных
+    Описание структуры ответа на создание операции снятия наличных.
     """
     operation: OperationDict
 
@@ -278,11 +294,11 @@ class OperationsGatewayHTTPClient(HTTPClient):
         """
         return self.post("/api/v1/operations/make-cash-withdrawal-operation", json=request)
 
-    def get_operation(self, operation_id: str) -> GetOperationsResponseDict:
+    def get_operation(self, operation_id: str) -> GetOperationResponseDict:
         response = self.get_operation_api(operation_id)
         return response.json()
 
-    def get_operation_receipt(self, operation_id: str):
+    def get_operation_receipt(self, operation_id: str) -> GetOperationReceiptResponseDict:
         response = self.get_operation_receipt_api(operation_id)
         return response.json()
 
@@ -309,7 +325,7 @@ class OperationsGatewayHTTPClient(HTTPClient):
     def make_top_up_operation(self, card_id: str, account_id: str) -> MakeTopUpOperationResponseDict:
         request = MakeTopUpOperationRequestDict(
             status="COMPLETED",
-            amount=55.77,
+            amount=1500.11,
             cardId=card_id,
             accountId=account_id
         )
@@ -319,7 +335,7 @@ class OperationsGatewayHTTPClient(HTTPClient):
     def make_cashback_operation(self, card_id: str, account_id: str) -> MakeCashbackOperationResponseDict:
         request = MakeCashbackOperationRequestDict(
             status="COMPLETED",
-            amount=55.77,
+            amount=1500.11,
             cardId=card_id,
             accountId=account_id
         )
@@ -329,7 +345,7 @@ class OperationsGatewayHTTPClient(HTTPClient):
     def make_transfer_operation(self, card_id: str, account_id: str) -> MakeTransferOperationResponseDict:
         request = MakeTransferOperationRequestDict(
             status="COMPLETED",
-            amount=55.77,
+            amount=15.11,
             cardId=card_id,
             accountId=account_id
         )
@@ -341,13 +357,13 @@ class OperationsGatewayHTTPClient(HTTPClient):
             status="COMPLETED",
             amount=55.77,
             cardId=card_id,
-            accountId=account_id,
-            category="PURCHASE"
+            category="taxi",
+            accountId=account_id
         )
         response = self.make_purchase_operation_api(request)
         return response.json()
 
-    def make_bill_payment_operation(self, card_id: str, account_id: str) -> MakeBillOperationResponseDict:
+    def make_bill_payment_operation(self, card_id: str, account_id: str) -> MakeBillPaymentOperationResponseDict:
         request = MakeBillPaymentOperationRequestDict(
             status="COMPLETED",
             amount=55.77,
