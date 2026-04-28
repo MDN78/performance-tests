@@ -1,11 +1,11 @@
-import uuid
-from enum import StrEnum
 from datetime import datetime
+from enum import StrEnum
 
-from pydantic import BaseModel, Field, ConfigDict, HttpUrl
+from pydantic import BaseModel, Field, HttpUrl, ConfigDict
 
 
 class OperationType(StrEnum):
+    FEE = "FEE"
     TOP_UP = "TOP_UP"
     PURCHASE = "PURCHASE"
     CASHBACK = "CASHBACK"
@@ -25,7 +25,7 @@ class OperationSchema(BaseModel):
     """
     Описание структуры операции.
     """
-    id: uuid.UUID
+    id: str
     type: OperationType
     status: OperationStatus
     amount: float
