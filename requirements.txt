@@ -1,4 +1,6 @@
 termcolor
 httpx==0.28.1
 pydantic[email]
-faker == 40.15.0
+faker==40.15.0
+grpcio
+grpcio-tools
