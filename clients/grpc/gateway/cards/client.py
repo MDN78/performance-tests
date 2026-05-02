@@ -51,7 +51,7 @@ class CardsGatewayGRPCClient(GRPCClient):
         :return: Ответ с информацией о карте.
         """
         request = IssueVirtualCardRequest(user_id=user_id, account_id=account_id)
-        return self.stub.IssueVirtualCard(request)
+        return self.issue_virtual_card_api(request)
 
     def issue_physical_card(self, user_id: str, account_id: str) -> IssuePhysicalCardResponse:
         """
@@ -61,7 +61,7 @@ class CardsGatewayGRPCClient(GRPCClient):
         :return: Ответ с информацией о карте.
         """
         request = IssuePhysicalCardRequest(user_id=user_id, account_id=account_id)
-        return self.stub.IssuePhysicalCard(request)
+        return self.issue_physical_card_api(request)
 
 
 def build_cards_gateway_grpc_client() -> CardsGatewayGRPCClient:
