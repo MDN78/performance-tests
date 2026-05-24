@@ -17,7 +17,6 @@ class GetUserScenarioUser(User):
         Метод on_start вызывается один раз при запуске каждой сессии виртуального пользователя.
         Здесь мы создаем нового пользователя, отправляя POST-запрос к /api/v1/users.
         """
-
         self.users_gateway_client = build_users_gateway_locust_http_client(self.environment)
         self.create_user_response = self.users_gateway_client.create_user()
 
