@@ -1,4 +1,4 @@
-from locust import User, between, task
+from locust import task
 
 from clients.http.gateway.locust import GatewayHTTPTaskSet
 from clients.http.gateway.users.schema import CreateUserResponseSchema

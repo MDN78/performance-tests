@@ -1,4 +1,4 @@
-from locust import User, between, task
+from locust import task
 
 from clients.grpc.gateway.locust import GatewayGRPCTaskSet
 from contracts.services.gateway.users.rpc_create_user_pb2 import CreateUserResponse
