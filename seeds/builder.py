@@ -314,7 +314,7 @@ def build_grpc_seeds_builder() -> SeedsBuilder:
     )
 
 
-def build_http_seeds_builder():
+def build_http_seeds_builder() -> SeedsBuilder:
     """
     Фабрика для создания сидера с использованием HTTP-клиентов.
 
