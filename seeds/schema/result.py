@@ -1,4 +1,5 @@
 import random
+
 from pydantic import BaseModel, Field
 
 
@@ -28,16 +29,19 @@ class SeedAccountResult(BaseModel):
 
     Attributes:
         account_id (str): Уникальный идентификатор счёта.
+        virtual_cards (list[SeedCardResult]): Список виртуальных карт, привязанных к счёту.
         physical_cards (list[SeedCardResult]): Список физических карт, привязанных к счёту.
         top_up_operations (list[SeedOperationResult]): Список операций пополнения.
+        transfer_operations (list[SeedOperationResult]): Список операций перевода.
         purchase_operations (list[SeedOperationResult]): Список операций покупки.
+        cash_withdrawal_operations (list[SeedOperationResult]): Список операций снятия наличных.
     """
     account_id: str
+    virtual_cards: list[SeedCardResult] = Field(default_factory=list)
     physical_cards: list[SeedCardResult] = Field(default_factory=list)
     top_up_operations: list[SeedOperationResult] = Field(default_factory=list)
-    purchase_operations: list[SeedOperationResult] = Field(default_factory=list)
-    virtual_cards: list[SeedCardResult] = Field(default_factory=list)
     transfer_operations: list[SeedOperationResult] = Field(default_factory=list)
+    purchase_operations: list[SeedOperationResult] = Field(default_factory=list)
     cash_withdrawal_operations: list[SeedOperationResult] = Field(default_factory=list)
 
 
