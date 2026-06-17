@@ -20,18 +20,20 @@ class IssuePhysicalCardSequentialTaskSet(GatewayHTTPSequentialTaskSet):
 
     @task
     def open_debit_card_account(self):
+        # Открываем дебетовый счёт для нового пользователя
         if not self.create_user_response:
             return
-        # Открываем дебетовый счёт для нового пользователя
+
         self.open_open_debit_card_account_response = self.accounts_gateway_client.open_debit_card_account(
             user_id=self.create_user_response.user.id
         )
 
     @task
     def issue_physical_card(self):
-        if not self.open_open_debit_card_account_response:
-            return
         # Выпускаем физическую карту к открытому дебетовому счету для нового пользователя
+        if (not self.create_user_response) or (not self.open_open_debit_card_account_response):
+            return
+
         self.cards_gateway_client.issue_physical_card(
             user_id=self.create_user_response.user.id,
             account_id=self.open_open_debit_card_account_response.account.id
