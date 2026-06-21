@@ -23,21 +23,21 @@ class IssueVirtualCardTaskSet(GatewayHTTPTaskSet):
     seed_user: SeedUserResult
 
     def on_start(self) -> None:
-        # Получаем случайного пользователя из подготовленного списка
         super().on_start()
+        # Получаем случайного пользователя из подготовленного списка
         self.seed_user = self.user.environment.seeds.get_random_user()
 
-    @task(3)
+    @task(2)
     def get_accounts(self):
         # Получаем список счетов
         self.accounts_gateway_client.get_accounts(user_id=self.seed_user.user_id)
 
     @task(1)
     def issue_virtual_card(self):
-        # Выпускаем виртуальную карту к счету
+        # Загружаем сгенерированных пользователей в окружение Locust
         self.cards_gateway_client.issue_virtual_card(
             user_id=self.seed_user.user_id,
-            account_id=self.seed_user.debit_card_accounts[0].account_id,
+            account_id=self.seed_user.debit_card_accounts[0].account_id
         )
 
 
