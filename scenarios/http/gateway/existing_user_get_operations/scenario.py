@@ -9,30 +9,26 @@ from tools.locust.user import LocustBaseUser
 
 @events.init.add_listener
 def init(environment: Environment, **kwargs):
-    """Хук инициализации — вызывается перед началом запуска нагрузки"""
     seeds_scenario = ExistingUserGetOperationsSeedsScenario()
     seeds_scenario.build()
-
     environment.seeds = seeds_scenario.load()
 
 
 class GetOperationsTaskSet(GatewayHTTPTaskSet):
     """TaskSet — сценарий пользователя. Каждый виртуальный пользователь выполняет эти задачи"""
-    seed_user: SeedUserResult  # Типизированная ссылка на данные из сидинга
+    seed_user: SeedUserResult
 
     def on_start(self) -> None:
-        super().on_start()
         # Получаем случайного пользователя из подготовленного списка
+        super().on_start()
         self.seed_user = self.user.environment.seeds.get_random_user()
 
     @task(1)
     def get_accounts(self):
         # Получаем список счетов
-        self.accounts_gateway_client.get_accounts(
-            user_id=self.seed_user.user_id
-        )
+        self.accounts_gateway_client.get_accounts(user_id=self.seed_user.user_id)
 
-    @task(3)
+    @task(2)
     def get_operations(self):
         # Получаем список операций по счёту
         self.operations_gateway_client.get_operations(
