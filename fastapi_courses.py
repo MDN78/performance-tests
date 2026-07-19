@@ -1,5 +1,5 @@
 from fastapi import FastAPI, APIRouter, HTTPException, status
-from pydantic import BaseModel, EmailStr, RootModel
+from pydantic import BaseModel, RootModel
 
 app = FastAPI()
 
