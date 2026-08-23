@@ -1,10 +1,10 @@
 httpx==0.28.1
 pydantic[email]
 faker==40.15.0
-grpcio
-grpcio-tools
-gevent
+grpcio== 1.80.0
+grpcio-tools==1.80.0
+gevent==25.9.1
 locust==2.43.4
-uvicorn
-fastapi
+uvicorn==0.51.0
+fastapi==0.139.0
 pydantic-settings==2.15.0
