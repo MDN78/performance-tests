@@ -99,7 +99,7 @@ jobs:
     steps:
       # 1. Загружаем артефакт с отчетами
       - name: Download reports artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: reports
           path: reports
