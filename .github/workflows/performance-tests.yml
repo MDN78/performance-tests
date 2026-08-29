@@ -1,5 +1,9 @@
 name: Performance Tests  # Название workflow — отображается в UI GitHub Actions
 
+# Добавляем переменную окружения для использования Node.js 24
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 on:
   workflow_dispatch: # Позволяет запускать workflow вручную через UI GitHub
     inputs:
