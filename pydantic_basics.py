@@ -10,6 +10,7 @@ class DocumentSchema(BaseModel):
     document: str
 
 
+
 # Добавили модель UserSchema
 class UserSchema(BaseModel):
     id: str

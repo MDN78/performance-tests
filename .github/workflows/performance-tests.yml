@@ -92,13 +92,20 @@ jobs:
         working-directory: performance-qa-engineer-course
 
   publish-report:
+    if: always()
+    needs: [ run-tests ]
     runs-on: ubuntu-latest
-    needs: run-tests  # Запускается только после run-tests
-    if: always()  # Запускается даже если run-tests завершилась с ошибкой
+
 
     steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: gh-pages
+
       # 1. Загружаем артефакт с отчетами
-      - name: Download reports artifact
+      - name: Download Locust reports
         uses: actions/download-artifact@v5
         with:
           name: reports
