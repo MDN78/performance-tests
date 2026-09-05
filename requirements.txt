@@ -8,3 +8,4 @@ locust==2.43.4
 uvicorn==0.51.0
 fastapi==0.139.0
 pydantic-settings==2.15.0
+load-testing-hub==0.6.0
